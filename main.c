@@ -12,7 +12,8 @@ t_my_framebuffer *my_framebuffer_create(int width, int height)
   int i;
 
   framebuffer = malloc(sizeof(*framebuffer));
-  framebuffer->pixels = malloc(width * height * 4 * sizeof(*framebuffer->pixels));
+  framebuffer->pixels = malloc(width * height * 4
+			       * sizeof(*framebuffer->pixels));
   framebuffer->width = width;
   framebuffer->height = height;
   framebuffer->light.x = -100;
@@ -41,7 +42,8 @@ void my_putpixels(t_my_framebuffer *framebuffer, int x, int y, sfColor color)
   framebuffer->pixels[(framebuffer->width * y + x) * 4 + 3] = color.a;
 }
 
-void dark_sphere(t_my_framebuffer *framebuffer, sfVector2i screen_pos, sfVector3f eye_pos, sfVector3f dir_vector)
+void dark_sphere(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
+		 sfVector3f eye_pos, sfVector3f dir_vector)
 {
   sfVector3f point;
   sfVector3f dir_spot;
@@ -79,7 +81,8 @@ void dark_sphere(t_my_framebuffer *framebuffer, sfVector2i screen_pos, sfVector3
   my_putpixels(framebuffer, screen_pos.x, screen_pos.y, color);
 }
 
-void dark_plan(t_my_framebuffer *framebuffer, sfVector2i screen_pos, sfVector3f eye_pos, sfVector3f dir_vector)
+void dark_plan(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
+	       sfVector3f eye_pos, sfVector3f dir_vector)
 {
   sfVector3f point;
   float k_plan;
