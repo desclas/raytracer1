@@ -1,5 +1,4 @@
 #include <SFML/Graphics.h>
-
 #include "framebuffer.h"
 
 #define	FRAMEBUFFER_WIDTH 600
