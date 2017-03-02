@@ -1,4 +1,4 @@
-#include "framebuffer.h"
+#include "../framebuffer.h"
 
 float get_light_coef(sfVector3f light_vector, sfVector3f normal_vector)
 {

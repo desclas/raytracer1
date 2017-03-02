@@ -1,4 +1,4 @@
-#include "framebuffer.h"
+#include "../framebuffer.h"
 
 sfVector3f rotate_xyz(sfVector3f to_rotate, sfVector3f angles)
 {

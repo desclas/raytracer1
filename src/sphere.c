@@ -1,4 +1,4 @@
-#include "framebuffer.h"
+#include "../framebuffer.h"
 
 float one_sol(double a, double b)
 {

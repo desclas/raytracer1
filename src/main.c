@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <SFML/Graphics.h>
 
-#include "framebuffer.h"
+#include "../framebuffer.h"
 
 #define	FRAMEBUFFER_WIDTH 600
 #define FRAMEBUFFER_HEIGHT 400
