@@ -1,6 +1,6 @@
 #include "framebuffer.h"
 
-float intersection_cylinder(sfVector3f eye_pos, sfVector3f dir_vector,
+float intersect_cylinder(sfVector3f eye_pos, sfVector3f dir_vector,
 			    float radius)
 {
   double a;

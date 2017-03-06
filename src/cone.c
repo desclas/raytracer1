@@ -1,6 +1,6 @@
 #include "framebuffer.h"
 
-float intersection_cone(sfVector3f eye_pos,
+float intersect_cone(sfVector3f eye_pos,
 			sfVector3f dir_vector, float semiangle)
 {
   double a;
