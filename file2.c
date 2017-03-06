@@ -5,7 +5,7 @@
 ** Login   <mathias.descoin@epitech.eu@epitech.net>
 ** 
 ** Started on  Thu Mar  2 14:58:22 2017 Mathias
-** Last update Thu Mar  2 14:59:10 2017 Mathias
+** Last update Sun Mar  5 19:04:12 2017 Mathias
 */
 
 #include "framebuffer.h"
@@ -32,31 +32,29 @@ sfVector3f the_point(sfVector3f eye_pos, sfVector3f dir_vector, float k_obj)
 /* k_sphere = get_light_coef(dir_spot, point); */
 /* metre ces deux lignes au dessus de "k_sphere = norm(dir_vector);" */
 
-void dark_sphere(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
-		 sfVector3f eye_pos, sfVector3f dir_vector)
+void the_sphere(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
+		sfVector3f dir_vector, int k)
 {
   sfVector3f point;
   sfVector3f dir_spot;
-  float k_sphere;
   sfColor color;
 
-  k_sphere = intersect_sphere(eye_pos, dir_vector, 50);
-  point = the_point(eye_pos, dir_vector, k_sphere);
+  point = the_point(eye_pos, dir_vector, framebuffer->all_k[k]);
   dir_spot.x = framebuffer->light.x - point.x;
   dir_spot.y = framebuffer->light.y - point.y;
   dir_spot.z = framebuffer->light.z - point.z;
-  k_sphere = norm(dir_vector);
-  dir_vector = div_f(dir_vector, k_sphere);
-  k_sphere = norm(dir_spot);
-  dir_spot = div_f(dir_spot, k_sphere);
-  k_sphere = (dir_vector.x * dir_spot.x) +
+  framebuffer->all_k[k] = norm(dir_vector);
+  dir_vector = div_f(dir_vector, framebuffer->all_k[k]);
+  framebuffer->all_k[k] = norm(dir_spot);
+  dir_spot = div_f(dir_spot, framebuffer->all_k[k]);
+  framebuffer->all_k[k] = (dir_vector.x * dir_spot.x) +
     (dir_vector.y * dir_spot.y) + (dir_vector.z * dir_spot.z);
-  k_sphere *= -1;
+  framebuffer->all_k[k] *= -1;
   color = sfRed;
-  if (k_sphere < 0)
+  if (framebuffer->all_k[k] < 0)
     color = sfBlack;
   else
-    color = col(color, k_sphere);
+    color = col(color, framebuffer->all_k[k]);
   my_putpixels(framebuffer, screen_pos.x, screen_pos.y, color);
 }
 
@@ -92,19 +90,22 @@ void dark_plan(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
 void choice(t_my_framebuffer *framebuffer, sfVector3f eye_pos,
 	    sfVector3f dir_vector, sfVector2i screen_pos)
 {
-  float k_plan;
-  float k_sphere;
+  int res;
   
-  k_sphere = intersect_sphere(eye_pos, dir_vector, 50);
-  k_plan = intersect_plane(eye_pos, dir_vector);
-  if (k_sphere < 0 && k_plan < 0)
+  framebuffer->all_k[0] = intersect_sphere(eye_pos, dir_vector, 50);
+  framebuffer->all_k[1] = intersect_plane(eye_pos, dir_vector);
+  framebuffer->all_k[2] = -1;
+  /* framebuffer->all_k[2] = intersect_cylinder(eye_pos, dir_vector, 50); */
+  framebuffer->all_k[3] = -1;
+  res = bigger(framebuffer->all_k);
+  if (res == -1)
     my_putpixels(framebuffer, screen_pos.x, screen_pos.y, sfBlack);
-  else if (k_sphere == -1 && k_plan >= 0)
+  else if (res == 0)
+    the_sphere(framebuffer, screen_pos, eye_pos, dir_vector);
+  else if (res == 1)
     dark_plan(framebuffer, screen_pos, eye_pos, dir_vector);
-  else if (k_sphere >= 0 && k_plan == -1)
-    dark_sphere(framebuffer, screen_pos, eye_pos, dir_vector);
-  else if (k_sphere < k_plan)
-    dark_sphere(framebuffer, screen_pos, eye_pos, dir_vector);
-  else if (k_sphere > k_plan)
-    dark_plan(framebuffer, screen_pos, eye_pos, dir_vector);
+  else if (res == 2)
+    ;
+  else if (res == 3)
+    ;
 }

@@ -13,9 +13,9 @@ void	raytrace_scene(t_my_framebuffer *framebuffer)
   float k_sphere;
   float k_plan;
 
-  eye_pos.x = -200;
-  eye_pos.y = 0;
-  eye_pos.z = 0;
+  framebuffer->eye_pos.x = -200;
+  framebuffer->eye_pos.y = 0;
+  framebuffer->eye_pos.z = 0;
   screen_size.x = framebuffer->width;
   screen_size.y = framebuffer->height;
   screen_pos.x = 0;

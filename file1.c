@@ -5,7 +5,7 @@
 ** Login   <mathias.descoin@epitech.eu@epitech.net>
 ** 
 ** Started on  Thu Mar  2 14:57:17 2017 Mathias
-** Last update Thu Mar  2 14:57:59 2017 Mathias
+** Last update Fri Mar  3 16:41:13 2017 Mathias
 */
 
 #include "framebuffer.h"
@@ -29,12 +29,14 @@ t_my_framebuffer *my_framebuffer_create(int width, int height)
       framebuffer->pixels[i] = 0;
       i += 1;
     }
+  framebuffer->all_k = malloc(sizeof(float) * 4);
   return (framebuffer);
 }
 
 void my_framebuffer_destroy(t_my_framebuffer *framebuffer)
 {
   free(framebuffer->pixels);
+  free(framebuffer->all_k);
   free(framebuffer);
 }
 

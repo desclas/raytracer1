@@ -11,13 +11,13 @@ float intersection_cone(sfVector3f eye_pos,
   semiangle = (M_PI * semiangle) / 180;
   a = (pow(tan(semiangle), 2) * (pow(dir_vector.x, 2) + pow(dir_vector.y, 2)))
     - pow(dir_vector.z, 2);
-  b = (pow(tan(semiangle), 2) *
-       ((2 * eye_pos.x * dir_vector.x) + (2 * eye_pos.y * dir_vector.y)))
+  b = (pow(tan(semiangle), 2)) *
+    ((2 * eye_pos.x * dir_vector.x) + (2 * eye_pos.y * dir_vector.y))
     - (2 * eye_pos.z * dir_vector.z);
-  c = (pow(tan(semiangle), 2) * (pow(eye_pos.x, 2) + pow(eye_pos.y, 2)))
-    - pow(eye_pos.z, 2);
+  c = (pow(eye_pos.x, 2) + pow(eye_pos.y, 2))
+    - (pow(eye_pos.z, 2) / (pow(tan(semiangle), 2)));
   s = pow(b, 2) - (4 * a * c);
-  if (s < 0)
+     if (s < 0)
     return (-1);
   else if (s == 0)
     return (one_sol(a, b));
