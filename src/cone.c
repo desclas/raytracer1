@@ -1,4 +1,4 @@
-#include "../framebuffer.h"
+#include "framebuffer.h"
 
 float intersection_cone(sfVector3f eye_pos,
 			sfVector3f dir_vector, float semiangle)
@@ -17,7 +17,7 @@ float intersection_cone(sfVector3f eye_pos,
   c = (pow(eye_pos.x, 2) + pow(eye_pos.y, 2))
     - (pow(eye_pos.z, 2) / (pow(tan(semiangle), 2)));
   s = pow(b, 2) - (4 * a * c);
-     if (s < 0)
+  if (s < 0)
     return (-1);
   else if (s == 0)
     return (one_sol(a, b));

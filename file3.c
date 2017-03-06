@@ -4,34 +4,28 @@
 ** Made by Mathias
 ** Login   <mathias.descoin@epitech.eu@epitech.net>
 ** 
-** Started on  Fri Mar  3 16:37:19 2017 Mathias
-** Last update Fri Mar  3 18:44:11 2017 Mathias
+** Started on  Mon Mar  6 16:08:13 2017 Mathias
+** Last update Mon Mar  6 16:39:39 2017 Mathias
 */
 
 #include "framebuffer.h"
 
-int bigger(float *all_k)
+void choice(t_my_framebuffer *framebuffer, sfVector3f eye_pos,
+	    sfVector3f dir_vector, sfVector2i screen_pos)
 {
-  int i;
-  int res;
-
-  i = 0;
-  res = -1;
-  while (all_k[i] < 0 && i != 4)
-    i += 1;
-  if (i == 4)
-    return (res);
-  res = i;
-  i = 0;
-  while (i != 4)
-    {
-      if (all_k[res] > all_k[i] && all_k[i] > 0)
-	{
-	  res = i;
-	  i = 0;
-	}
-      else
-	i += 1;
-    }
-  return (res);
+  float k_sphere;
+  float k_plan;
+  
+  k_sphere = intersect_sphere(eye_pos, dir_vector, 50);
+  k_plan = intersect_plane(eye_pos, dir_vector);
+  if (k_sphere < 0 && k_plan < 0)
+    my_putpixels(framebuffer, screen_pos.x, screen_pos.y, sfBlack);
+  else if (k_sphere == -1 && k_plan >= 0)
+    dark_plan(framebuffer, screen_pos, eye_pos, dir_vector);
+  else if (k_sphere >= 0 && k_plan == -1)
+    dark_sphere(framebuffer, screen_pos, eye_pos, dir_vector);
+  else if (k_sphere < k_plan)
+    dark_sphere(framebuffer, screen_pos, eye_pos, dir_vector);
+  else if (k_sphere > k_plan)
+    dark_plan(framebuffer, screen_pos, eye_pos, dir_vector);
 }

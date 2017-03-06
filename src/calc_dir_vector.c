@@ -1,4 +1,4 @@
-#include "../framebuffer.h"
+#include "framebuffer.h"
 
 sfVector3f calc_dir_vector(float dist_to_plane, sfVector2i screen_size, sfVector2i screen_pos)
 {

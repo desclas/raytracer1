@@ -1,4 +1,4 @@
-#include "../framebuffer.h"
+#include "framebuffer.h"
 
 sfVector3f translate(sfVector3f to_translate, sfVector3f translations)
 {

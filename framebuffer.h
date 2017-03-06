@@ -1,9 +1,9 @@
 #ifndef FRAMEBUFFER_H_
 # define FRAMEBUFFER_H_
 
+# include <stdlib.h>
 # include <math.h>
 # include <SFML/Graphics.h>
-# include <stdlib.h>
 
 typedef struct s_my_framebuffer
 {
@@ -11,8 +11,6 @@ typedef struct s_my_framebuffer
   int width;
   int height;
   sfVector3f light;
-  float *all_k;
-  sfVector3f eye_pos;
 }		t_my_framebuffer;
 
 sfVector3f calc_dir_vector(float dist_to_plane, sfVector2i screen_size,
@@ -46,8 +44,8 @@ void dark_sphere(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
 		 sfVector3f eye_pos, sfVector3f dir_vector);
 void dark_plan(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
 	       sfVector3f eye_pos, sfVector3f dir_vector);
+void	raytrace_scene(t_my_framebuffer *framebuffer);
 void choice(t_my_framebuffer *framebuffer, sfVector3f eye_pos,
 	    sfVector3f dir_vector, sfVector2i screen_pos);
-int bigger(float *all_k);
 
 #endif /* !FRAMEBUFFER_H_ */

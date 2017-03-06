@@ -1,4 +1,4 @@
-#include "../framebuffer.h"
+#include "framebuffer.h"
 
 float intersect_plane(sfVector3f eye_pos, sfVector3f dir_vector)
 {

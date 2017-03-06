@@ -1,4 +1,4 @@
-#include "../framebuffer.h"
+#include "framebuffer.h"
 
 float intersection_cylinder(sfVector3f eye_pos, sfVector3f dir_vector,
 			    float radius)

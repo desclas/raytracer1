@@ -4,8 +4,8 @@
 ** Made by Mathias
 ** Login   <mathias.descoin@epitech.eu@epitech.net>
 ** 
-** Started on  Thu Mar  2 14:58:22 2017 Mathias
-** Last update Sun Mar  5 19:04:12 2017 Mathias
+** Started on  Mon Mar  6 16:03:54 2017 Mathias
+** Last update Mon Mar  6 16:36:50 2017 Mathias
 */
 
 #include "framebuffer.h"
@@ -32,29 +32,31 @@ sfVector3f the_point(sfVector3f eye_pos, sfVector3f dir_vector, float k_obj)
 /* k_sphere = get_light_coef(dir_spot, point); */
 /* metre ces deux lignes au dessus de "k_sphere = norm(dir_vector);" */
 
-void the_sphere(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
-		sfVector3f dir_vector, int k)
+void dark_sphere(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
+		 sfVector3f eye_pos, sfVector3f dir_vector)
 {
   sfVector3f point;
   sfVector3f dir_spot;
+  float k_sphere;
   sfColor color;
 
-  point = the_point(eye_pos, dir_vector, framebuffer->all_k[k]);
+  k_sphere = intersect_sphere(eye_pos, dir_vector, 50);
+  point = the_point(eye_pos, dir_vector, k_sphere);
   dir_spot.x = framebuffer->light.x - point.x;
   dir_spot.y = framebuffer->light.y - point.y;
   dir_spot.z = framebuffer->light.z - point.z;
-  framebuffer->all_k[k] = norm(dir_vector);
-  dir_vector = div_f(dir_vector, framebuffer->all_k[k]);
-  framebuffer->all_k[k] = norm(dir_spot);
-  dir_spot = div_f(dir_spot, framebuffer->all_k[k]);
-  framebuffer->all_k[k] = (dir_vector.x * dir_spot.x) +
+  k_sphere = norm(dir_vector);
+  dir_vector = div_f(dir_vector, k_sphere);
+  k_sphere = norm(dir_spot);
+  dir_spot = div_f(dir_spot, k_sphere);
+  k_sphere = (dir_vector.x * dir_spot.x) +
     (dir_vector.y * dir_spot.y) + (dir_vector.z * dir_spot.z);
-  framebuffer->all_k[k] *= -1;
+  k_sphere *= -1;
   color = sfRed;
-  if (framebuffer->all_k[k] < 0)
+  if (k_sphere < 0)
     color = sfBlack;
   else
-    color = col(color, framebuffer->all_k[k]);
+    color = col(color, k_sphere);
   my_putpixels(framebuffer, screen_pos.x, screen_pos.y, color);
 }
 
@@ -87,25 +89,30 @@ void dark_plan(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
     my_putpixels(framebuffer, screen_pos.x, screen_pos.y, sfBlue);
 }
 
-void choice(t_my_framebuffer *framebuffer, sfVector3f eye_pos,
-	    sfVector3f dir_vector, sfVector2i screen_pos)
+void	raytrace_scene(t_my_framebuffer *framebuffer)
 {
-  int res;
-  
-  framebuffer->all_k[0] = intersect_sphere(eye_pos, dir_vector, 50);
-  framebuffer->all_k[1] = intersect_plane(eye_pos, dir_vector);
-  framebuffer->all_k[2] = -1;
-  /* framebuffer->all_k[2] = intersect_cylinder(eye_pos, dir_vector, 50); */
-  framebuffer->all_k[3] = -1;
-  res = bigger(framebuffer->all_k);
-  if (res == -1)
-    my_putpixels(framebuffer, screen_pos.x, screen_pos.y, sfBlack);
-  else if (res == 0)
-    the_sphere(framebuffer, screen_pos, eye_pos, dir_vector);
-  else if (res == 1)
-    dark_plan(framebuffer, screen_pos, eye_pos, dir_vector);
-  else if (res == 2)
-    ;
-  else if (res == 3)
-    ;
+  sfVector3f eye_pos;
+  sfVector2i screen_size;
+  sfVector2i screen_pos;
+  sfVector3f dir_vector;
+  float k_sphere;
+  float k_plan;
+
+  eye_pos.x = -200;
+  eye_pos.y = 0;
+  eye_pos.z = 0;
+  screen_size.x = framebuffer->width;
+  screen_size.y = framebuffer->height;
+  screen_pos.x = 0;
+  while (screen_pos.x != screen_size.x)
+    {
+      screen_pos.y = 0;
+      while (screen_pos.y != screen_size.y)
+	{
+	  dir_vector = calc_dir_vector(500, screen_size, screen_pos);
+	  choice(framebuffer, eye_pos, dir_vector, screen_pos);
+	  screen_pos.y += 1;
+	}
+      screen_pos.x += 1;
+    }
 }
