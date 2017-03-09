@@ -5,7 +5,7 @@
 ** Login   <mathias.descoin@epitech.eu@epitech.net>
 ** 
 ** Started on  Mon Mar  6 16:03:12 2017 Mathias
-** Last update Mon Mar  6 16:03:28 2017 Mathias
+** Last update Wed Mar  8 10:18:10 2017 Mathias
 */
 
 #include "framebuffer.h"
@@ -21,7 +21,7 @@ t_my_framebuffer *my_framebuffer_create(int width, int height)
   framebuffer->width = width;
   framebuffer->height = height;
   framebuffer->light.x = -100;
-  framebuffer->light.y = 0;
+  framebuffer->light.y = -50;
   framebuffer->light.z = 0;
   i = 0;
   while (i != width * height * 4)

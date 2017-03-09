@@ -5,7 +5,7 @@
 ** Login   <mathias.descoin@epitech.eu@epitech.net>
 ** 
 ** Started on  Mon Mar  6 16:03:54 2017 Mathias
-** Last update Mon Mar  6 16:36:50 2017 Mathias
+** Last update Wed Mar  8 16:32:37 2017 Mathias
 */
 
 #include "framebuffer.h"
@@ -98,7 +98,7 @@ void	raytrace_scene(t_my_framebuffer *framebuffer)
   float k_sphere;
   float k_plan;
 
-  eye_pos.x = -200;
+  eye_pos.x = -1000;
   eye_pos.y = 0;
   eye_pos.z = 0;
   screen_size.x = framebuffer->width;

@@ -47,5 +47,6 @@ void dark_plan(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
 void	raytrace_scene(t_my_framebuffer *framebuffer);
 void choice(t_my_framebuffer *framebuffer, sfVector3f eye_pos,
 	    sfVector3f dir_vector, sfVector2i screen_pos);
+int bigger(float *all_k, int max);
 
 #endif /* !FRAMEBUFFER_H_ */
