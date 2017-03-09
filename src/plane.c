@@ -6,7 +6,7 @@ float intersect_plane(sfVector3f eye_pos, sfVector3f dir_vector)
   
   if (dir_vector.x == 0)
     return (-1);
-  s = ((-(eye_pos.z) - 25) / dir_vector.z);
+  s = (-(eye_pos.z) / dir_vector.z);
   if (s < 0)
     return (-1);
   else
