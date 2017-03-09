@@ -5,7 +5,7 @@
 ** Login   <mathias.descoin@epitech.eu@epitech.net>
 ** 
 ** Started on  Mon Mar  6 16:08:13 2017 Mathias
-** Last update Thu Mar  9 18:07:58 2017 Mathias
+** Last update Thu Mar  9 18:40:34 2017 Mathias
 */
 
 #include "framebuffer.h"
@@ -66,6 +66,36 @@ void dark_cylinder(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
   my_putpixels(framebuffer, screen_pos.x, screen_pos.y, color);
 }
 
+void dark_cone(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
+		 sfVector3f eye_pos, sfVector3f dir_vector)
+{
+  sfVector3f point;
+  sfVector3f dir_spot;
+  float k_sphere;
+  sfColor color;
+  sfVector3f trans = {0, 50, 0};
+  sfVector3f rot = {90, 0, 0};
+  
+  k_sphere = intersect_cone(translate(rotate_xyz(eye_pos, rot), trans), translate(rotate_xyz(dir_vector, rot), trans), 10);
+  point = the_point(eye_pos, dir_vector, k_sphere);
+  dir_spot.x = framebuffer->light.x - point.x;
+  dir_spot.y = framebuffer->light.y - point.y;
+  dir_spot.z = framebuffer->light.z - point.z;
+  k_sphere = norm(dir_vector);
+  dir_vector = div_f(dir_vector, k_sphere);
+  k_sphere = norm(dir_spot);
+  dir_spot = div_f(dir_spot, k_sphere);
+  k_sphere = (dir_vector.x * dir_spot.x) +
+    (dir_vector.y * dir_spot.y) + (dir_vector.z * dir_spot.z);
+  k_sphere *= -1;
+  color = sfYellow;
+  if (k_sphere < 0)
+    color = sfBlack;
+  else
+    color = col(color, k_sphere);
+  my_putpixels(framebuffer, screen_pos.x, screen_pos.y, color);
+}
+
 void choice(t_my_framebuffer *framebuffer, sfVector3f eye_pos,
 	    sfVector3f dir_vector, sfVector2i screen_pos)
 {
@@ -91,5 +121,6 @@ void choice(t_my_framebuffer *framebuffer, sfVector3f eye_pos,
     dark_cylinder(framebuffer, screen_pos, eye_pos, dir_vector);
     /* my_putpixels(framebuffer, screen_pos.x, screen_pos.y, sfGreen); */
   else if (res == 3)
+    /* dark_cone(framebuffer, screen_pos, eye_pos, dir_vector); */
     my_putpixels(framebuffer, screen_pos.x, screen_pos.y, sfYellow);
 }
