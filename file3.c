@@ -5,7 +5,7 @@
 ** Login   <mathias.descoin@epitech.eu@epitech.net>
 ** 
 ** Started on  Mon Mar  6 16:08:13 2017 Mathias
-** Last update Thu Mar  9 18:40:34 2017 Mathias
+** Last update Tue Mar 14 15:05:57 2017 Mathias
 */
 
 #include "framebuffer.h"
@@ -119,7 +119,6 @@ void choice(t_my_framebuffer *framebuffer, sfVector3f eye_pos,
     dark_sphere(framebuffer, screen_pos, eye_pos, dir_vector);
   else if (res == 2)
     dark_cylinder(framebuffer, screen_pos, eye_pos, dir_vector);
-    /* my_putpixels(framebuffer, screen_pos.x, screen_pos.y, sfGreen); */
   else if (res == 3)
     /* dark_cone(framebuffer, screen_pos, eye_pos, dir_vector); */
     my_putpixels(framebuffer, screen_pos.x, screen_pos.y, sfYellow);
