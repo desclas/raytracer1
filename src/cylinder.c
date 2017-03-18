@@ -1,4 +1,4 @@
-#include "framebuffer.h"
+#include "../framebuffer.h"
 
 float intersect_cylinder(sfVector3f eye_pos, sfVector3f dir_vector,
 			    float radius)
@@ -8,6 +8,8 @@ float intersect_cylinder(sfVector3f eye_pos, sfVector3f dir_vector,
   double c;
   float s;
 
+  if (radius <= 0)
+    return (-1);
   a = pow(dir_vector.x, 2) + pow(dir_vector.y, 2);
   b = 2 * ((eye_pos.x * dir_vector.x) + (eye_pos.y * dir_vector.y));
   c = pow(eye_pos.x, 2) + pow(eye_pos.y, 2) - pow(radius, 2);

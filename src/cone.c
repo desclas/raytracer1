@@ -1,4 +1,4 @@
-#include "framebuffer.h"
+#include "../framebuffer.h"
 
 float intersect_cone(sfVector3f eye_pos,
 		     sfVector3f dir_vector, float semiangle)
@@ -7,7 +7,9 @@ float intersect_cone(sfVector3f eye_pos,
   double b;
   double c;
   float s;
-  
+
+  if (semiangle > 90 || semiangle <= 0)
+    return (-1);
   semiangle = pow(tan((M_PI * semiangle) / 180), 2);
   a = pow(dir_vector.x, 2) + pow(dir_vector.y, 2)
     - pow(dir_vector.z, 2) * semiangle;

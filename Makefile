@@ -1,25 +1,25 @@
 ##
-## Makefile for  in /home/mathias/Bureau/raytrace
+## Makefile for  in /home/mathias/Bureau/save
 ## 
 ## Made by Mathias
 ## Login   <mathias.descoin@epitech.eu@epitech.net>
 ## 
-## Started on  Mon Feb 27 16:22:23 2017 Mathias
-## Last update Mon Mar  6 16:36:16 2017 Mathias
+## Started on  Thu Mar 16 15:14:05 2017 Mathias
+## Last update Thu Mar 16 15:18:18 2017 Mathias
 ##
 
-SRC	=	src/calc_dir_vector.c	\
+SRC	=	file1.c			\
+		file2.c			\
+		file3.c			\
+		main.c			\
+		src/calc_dir_vector.c	\
 		src/cone.c		\
 		src/cylinder.c		\
 		src/light.c		\
-		main.c			\
 		src/plane.c		\
 		src/rotate.c		\
 		src/sphere.c		\
-		src/translate.c		\
-		file1.c			\
-		file2.c			\
-		file3.c
+		src/translate.c
 
 OBJ	=	$(SRC:.c=.o)
 
@@ -37,4 +37,3 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
-

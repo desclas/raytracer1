@@ -5,7 +5,7 @@
 ** Login   <mathias.descoin@epitech.eu@epitech.net>
 ** 
 ** Started on  Mon Mar  6 16:03:54 2017 Mathias
-** Last update Thu Mar  9 18:39:10 2017 Mathias
+** Last update Wed Mar 15 13:56:58 2017 Mathias
 */
 
 #include "framebuffer.h"
@@ -27,10 +27,6 @@ sfVector3f the_point(sfVector3f eye_pos, sfVector3f dir_vector, float k_obj)
   point.z = eye_pos.z + (k_obj * dir_vector.z);
   return (point);
 }
-
-/* point = get_normal_sphere(point); */
-/* k_sphere = get_light_coef(dir_spot, point); */
-/* metre ces deux lignes au dessus de "k_sphere = norm(dir_vector);" */
 
 void dark_sphere(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
 		 sfVector3f eye_pos, sfVector3f dir_vector)

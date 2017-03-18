@@ -1,4 +1,4 @@
-#include "framebuffer.h"
+#include "../framebuffer.h"
 
 float one_sol(double a, double b)
 {
@@ -39,6 +39,8 @@ float intersect_sphere(sfVector3f eye_pos, sfVector3f dir_vector, float radius)
   double c;
   float s;
 
+  if (radius <= 0)
+    return (-1);
   a = pow(dir_vector.x, 2) + pow(dir_vector.y, 2) + pow(dir_vector.z, 2);
   b = 2 * ((eye_pos.x * dir_vector.x) + (eye_pos.y * dir_vector.y) + (eye_pos.z * dir_vector.z));
   c = pow(eye_pos.x, 2) + pow(eye_pos.y, 2) + pow(eye_pos.z, 2) - pow(radius, 2);

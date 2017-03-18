@@ -5,7 +5,7 @@
 ** Login   <mathias.descoin@epitech.eu@epitech.net>
 ** 
 ** Started on  Mon Mar  6 16:08:13 2017 Mathias
-** Last update Tue Mar 14 15:05:57 2017 Mathias
+** Last update Sat Mar 18 18:44:22 2017 Mathias
 */
 
 #include "framebuffer.h"
@@ -36,6 +36,16 @@ int bigger(float *all_k, int max)
   return (res);
 }
 
+float int_cone(sfVector3f eye_pos, sfVector3f dir_vector)
+{
+  sfVector3f trans = {0, 50, 0};
+  sfVector3f rot = {90, 0, 0};
+  
+  return (intersect_cone(translate(rotate_xyz(eye_pos, rot), trans),
+			 translate(rotate_xyz(dir_vector, rot), trans),
+			 10));
+}
+
 void dark_cylinder(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
 		 sfVector3f eye_pos, sfVector3f dir_vector)
 {
@@ -43,10 +53,8 @@ void dark_cylinder(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
   sfVector3f dir_spot;
   float k_sphere;
   sfColor color;
-  sfVector3f test = {-10, -25, 0};
-  sfVector3f ro = {45, 0, 45};
   
-  k_sphere = intersect_cylinder(translate(rotate_xyz(eye_pos, ro), test), translate(rotate_xyz(dir_vector, ro), test), 25);;
+  k_sphere = intersect_cylinder(eye_pos, dir_vector, 25);
   point = the_point(eye_pos, dir_vector, k_sphere);
   dir_spot.x = framebuffer->light.x - point.x;
   dir_spot.y = framebuffer->light.y - point.y;
@@ -59,7 +67,9 @@ void dark_cylinder(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
     (dir_vector.y * dir_spot.y) + (dir_vector.z * dir_spot.z);
   k_sphere *= -1;
   color = sfGreen;
-  if (k_sphere < 0)
+  if (int_cone(point, dir_spot) <= 1 && int_cone(point, dir_spot) >= 0)
+    color = col(color, (1 / k_sphere));
+  else if (k_sphere < 0)
     color = sfBlack;
   else
     color = col(color, k_sphere);
@@ -73,10 +83,8 @@ void dark_cone(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
   sfVector3f dir_spot;
   float k_sphere;
   sfColor color;
-  sfVector3f trans = {0, 50, 0};
-  sfVector3f rot = {90, 0, 0};
   
-  k_sphere = intersect_cone(translate(rotate_xyz(eye_pos, rot), trans), translate(rotate_xyz(dir_vector, rot), trans), 10);
+  k_sphere = int_cone(eye_pos, dir_vector);
   point = the_point(eye_pos, dir_vector, k_sphere);
   dir_spot.x = framebuffer->light.x - point.x;
   dir_spot.y = framebuffer->light.y - point.y;
@@ -89,7 +97,9 @@ void dark_cone(t_my_framebuffer *framebuffer, sfVector2i screen_pos,
     (dir_vector.y * dir_spot.y) + (dir_vector.z * dir_spot.z);
   k_sphere *= -1;
   color = sfYellow;
-  if (k_sphere < 0)
+  if (intersect_cylinder(point, dir_spot, 25) >= 0 && intersect_cylinder(point, dir_spot, 25) <= 1)
+    color = col(color, 0.5);
+  else if (k_sphere < 0)
     color = sfBlack;
   else
     color = col(color, k_sphere);
@@ -101,15 +111,11 @@ void choice(t_my_framebuffer *framebuffer, sfVector3f eye_pos,
 {
   float all_k[4];
   int res;
-  sfVector3f test = {-10, -25, 0};
-  sfVector3f ro = {45, 0, 45};
-  sfVector3f trans = {0, 50, 0};
-  sfVector3f rot = {90, 0, 0};
   
   all_k[0] = intersect_sphere(eye_pos, dir_vector, 50);
   all_k[1] = intersect_plane(eye_pos, dir_vector);
-  all_k[2] = intersect_cylinder(translate(rotate_xyz(eye_pos, ro), test), translate(rotate_xyz(dir_vector, ro), test), 25);
-  all_k[3] = intersect_cone(translate(rotate_xyz(eye_pos, rot), trans), translate(rotate_xyz(dir_vector, rot), trans), 10);
+  all_k[2] = intersect_cylinder(eye_pos, dir_vector, 25);
+  all_k[3] = int_cone(eye_pos, dir_vector);
   res = bigger(all_k, 4);
   if (res == -1)
     my_putpixels(framebuffer, screen_pos.x, screen_pos.y, sfBlack);
@@ -120,6 +126,5 @@ void choice(t_my_framebuffer *framebuffer, sfVector3f eye_pos,
   else if (res == 2)
     dark_cylinder(framebuffer, screen_pos, eye_pos, dir_vector);
   else if (res == 3)
-    /* dark_cone(framebuffer, screen_pos, eye_pos, dir_vector); */
-    my_putpixels(framebuffer, screen_pos.x, screen_pos.y, sfYellow);
+    dark_cone(framebuffer, screen_pos, eye_pos, dir_vector);
 }
